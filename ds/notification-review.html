@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Отзыв пользователя о Toyota Land Cruiser Prado">
+  <title>Отзыв пользователя</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-width: 320px;
+      color: #111;
+      background: #f3f3f7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 98px;
+      padding: 0 17px 14px;
+      background: #fff;
+    }
+
+    .header__title {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      margin: 0;
+      transform: translateX(-50%);
+      font-size: 19px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .icon-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .back-icon {
+      width: 18px;
+      height: 18px;
+      border-bottom: 2px solid #111;
+      border-left: 2px solid #111;
+      transform: rotate(45deg);
+    }
+
+    .more-icon {
+      display: flex;
+      gap: 3px;
+    }
+
+    .more-icon span {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #111;
+    }
+
+    /* Hero */
+    .hero {
+      margin-top: 98px;
+      width: 100%;
+      aspect-ratio: 418 / 314;
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    .hero img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Content */
+    .content {
+      padding: 30px clamp(17px, 4vw, 40px) 0;
+      background: #fff;
+    }
+
+    .author {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      color: #fff;
+      background: #c4a4df;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .author__name {
+      font-size: 16px;
+    }
+
+    .author__city {
+      color: #999;
+      font-size: 15px;
+    }
+
+    .review-title {
+      margin: 0;
+      font-size: clamp(27px, 7vw, 38px);
+      font-weight: 600;
+      line-height: 1.17;
+    }
+
+    /* Rating */
+    .rating {
+      width: min(100%, 385px);
+      margin: 36px auto 0;
+      padding: 18px 17px 16px;
+      border-radius: 17px;
+      background: #f5f5f7;
+    }
+
+    .rating__top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(20px, 5vw, 40px);
+    }
+
+    .rating__value {
+      display: flex;
+      flex: 0 0 81px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 81px;
+      height: 80px;
+      border-radius: 10px;
+      color: #fff;
+      background: #ed001c;
+    }
+
+    .rating__value strong {
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 38px;
+    }
+
+    .rating__value span {
+      margin-top: 2px;
+      font-size: 10px;
+      line-height: 11px;
+      text-align: center;
+    }
+
+    .rating__bars {
+      flex: 0 1 300px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      height: 16px;
+      font-size: 12px;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 4px;
+      overflow: hidden;
+      border-radius: 4px;
+      background: #dedee1;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+
+    .bar-fill--red { background: #ed001c; }
+    .bar-fill--dark { background: #222; }
+    .bar-fill--gray { background: #999; }
+
+    .rating__count {
+      margin-top: 6px;
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .rating-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .rating-button {
+      width: 51px;
+      height: 51px;
+      padding: 0;
+      border: 0;
+      border-radius: 10px;
+      color: #fff;
+      background: #999a9e;
+      font-size: 16px;
+    }
+
+    .rating-button--selected { background: #ed001c; }
+    .rating-button--selected-dark { background: #27272a; }
+
+    .rating-buttons.rating-disabled {
+      pointer-events: none;
+    }
+
+    .rating-buttons.rating-disabled .rating-button {
+      color: #fff;
+      background: #c7c7ca;
+    }
+
+    .rating__hint {
+      margin-top: 10px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    /* Accordion */
+    .accordion {
+      margin-top: 18px;
+    }
+
+    .accordion__button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 17px 0;
+      border: 0;
+      background: transparent;
+      font-size: 17px;
+      text-align: left;
+    }
+
+    .accordion__chevron {
+      width: 9px;
+      height: 9px;
+      margin-right: 5px;
+      border-right: 2px solid #bbb;
+      border-bottom: 2px solid #bbb;
+      transform: rotate(45deg);
+      transition: transform .2s;
+    }
+
+    .accordion__item.is-open .accordion__chevron {
+      transform: rotate(225deg);
+    }
+
+    .accordion__content {
+      display: none;
+      padding-bottom: 16px;
+      color: #777;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .accordion__item.is-open .accordion__content {
+      display: block;
+    }
+
+    .car-score { color: #777; }
+    .car-score strong {
+      color: #111;
+      font-weight: 500;
+    }
+
+    /* Review */
+    .review {
+      margin-top: 27px;
+    }
+
+    .review__text {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.42;
+    }
+
+    .review__meta {
+      margin-top: 17px;
+      color: #999;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .rate-review {
+      width: 100%;
+      height: 49px;
+      margin-top: 24px;
+      border: 0;
+      border-radius: 5px;
+      color: #0074d9;
+      background: #e8f2fc;
+      font-size: 16px;
+    }
+
+    .rate-review.rate-review-disabled {
+      pointer-events: none;
+      color: #fff;
+      background: #d2d2d5;
+      cursor: default;
+    }
+
+    /* Additions */
+    .additions {
+      margin: 17px calc(-1 * clamp(17px, 4vw, 40px)) 0;
+      padding: 33px 0 20px;
+      background: #f3f3f7;
+    }
+
+    .additions__title {
+      margin: 0;
+      padding: 0 clamp(17px, 4vw, 40px) 18px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .addition-card {
+      margin-bottom: 9px;
+      padding: 18px 17px 20px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    .addition-card__title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .addition-card__meta {
+      margin-top: 9px;
+      color: #999;
+      font-size: 16px;
+    }
+
+    .addition-card__text {
+      margin: 25px 0 0;
+      font-size: 17px;
+      line-height: 1.43;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+    }
+
+    .photos {
+      display: flex;
+      gap: 4px;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+
+    .photos img {
+      flex: 0 0 85px;
+      width: 85px;
+      height: 85px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 20px;
+      color: #087ad9;
+      font-size: 16px;
+      text-decoration: none;
+    }
+
+    /* Notification */
+    .rating-notification {
+      position: fixed;
+      top: 64px;
+      left: 50%;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: min(740px, calc(100vw - 32px));
+      padding: 16px 24px;
+      border-radius: 40px;
+      color: #111;
+      background: #ffe9e9;
+      box-shadow: 0 8px 30px rgba(255, 110, 110, .28);
+      font-size: 17px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -130%);
+      transition: transform .3s, opacity .2s, visibility 0s .3s;
+    }
+
+    .rating-notification::before {
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      content: "";
+      background: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 20 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.9887 0C13.3291 0.000120762 15.5111 1.1874 16.7826 3.15234L18.3998 5.65234C19.8753 7.93316 19.8753 10.8676 18.3998 13.1484L16.7826 15.6484C15.5111 17.6135 13.3291 18.8007 10.9887 18.8008H8.51697C6.17667 18.8006 3.99545 17.6133 2.724 15.6484L1.10681 13.1484C-0.368938 10.8675 -0.368934 7.93325 1.10681 5.65234L2.724 3.15234C3.99544 1.18751 6.17666 0.000155324 8.51697 0H10.9887ZM8.51697 1.80078C6.78723 1.80094 5.17546 2.67767 4.23572 4.12988L2.61755 6.62988C1.52684 8.31573 1.52684 10.485 2.61755 12.1709L4.23572 14.6709C5.17545 16.1231 6.78723 16.9998 8.51697 17H10.9887C12.7185 16.9999 14.3311 16.1233 15.2709 14.6709L16.8881 12.1709C17.9788 10.485 17.9788 8.31579 16.8881 6.62988L15.2709 4.12988C14.3311 2.67754 12.7185 1.8009 10.9887 1.80078H8.51697ZM9.7533 11.9004C10.5815 11.9006 11.2533 12.5721 11.2533 13.4004C11.2533 14.2287 10.5815 14.9002 9.7533 14.9004C8.92487 14.9004 8.2533 14.2288 8.2533 13.4004C8.2533 12.572 8.92487 11.9004 9.7533 11.9004ZM9.94763 3.56152C10.9017 3.67146 11.5836 4.57945 11.39 5.54785L10.5863 9.56738C10.5068 9.96438 10.1582 10.2498 9.7533 10.25C9.34821 10.25 8.99888 9.96455 8.91931 9.56738L8.1156 5.54785C7.90894 4.51458 8.69958 3.55078 9.7533 3.55078L9.94763 3.56152Z' fill='%23DB001C'/%3E%3C/svg%3E") center / 32px 32px no-repeat;    }
+
+    .rating-notification.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+      transition: transform .3s, opacity .2s;
+    }
+
+    .rating-notification.is-leaving {
+      animation: rating-notification-leave .4s ease forwards;
+    }
+
+    .rating-notification__retry {
+      flex: 0 0 auto;
+      padding: 7px 0;
+      border: 0;
+      border-radius: 7px;
+      color: #d80022;
+      background: transparent;
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    @keyframes rating-notification-leave {
+      from {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+
+      to {
+        transform: translate(-50%, -130%);
+        opacity: 0;
+      }
+    }
+
+    @media (min-width: 700px) {
+      body { padding: 20px; }
+
+      .page {
+        box-shadow: 0 0 30px rgba(0, 0, 0, .07);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="header">
+      <button class="icon-button" type="button" aria-label="Назад">
+        <span class="back-icon" aria-hidden="true"></span>
+      </button>
+
+      <h1 class="header__title">Отзыв пользователя</h1>
+
+      <button class="icon-button" type="button" aria-label="Дополнительные действия">
+        <span class="more-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </header>
+
+    <div class="hero">
+      <img src="image.png" alt="Toyota Land Cruiser Prado">
+    </div>
+
+    <main class="content">
+      <div class="author">
+        <div class="avatar" aria-hidden="true">N</div>
+        <span class="author__name">Nebesni</span>
+        <span class="author__city">Санкт-Петербург</span>
+      </div>
+
+      <h2 class="review-title">Haval Jolion, 2026</h2>
+
+      <section class="rating" aria-label="Рейтинг отзыва">
+        <div class="rating__top">
+          <div class="rating__value">
+            <strong>4.9</strong>
+            <span>оценка<br>отзыва</span>
+          </div>
+
+          <div class="rating__bars">
+            <div class="bar-row">
+              <span>5</span>
+              <div class="bar-track"><div class="bar-fill bar-fill--red" style="width: 90%"></div></div>
+            </div>
+            <div class="bar-row">
+              <span>4</span>
+              <div class="bar-track"><div class="bar-fill bar-fill--dark" style="width: 18%"></div></div>
+            </div>
+            <div class="bar-row">
+              <span>3</span>
+              <div class="bar-track"><div class="bar-fill bar-fill--gray" style="width: 5%"></div></div>
+            </div>
+            <div class="bar-row">
+              <span>2</span>
+              <div class="bar-track"><div class="bar-fill bar-fill--gray" style="width: 2%"></div></div>
+            </div>
+            <div class="bar-row">
+              <span>1</span>
+              <div class="bar-track"><div class="bar-fill bar-fill--gray" style="width: 1%"></div></div>
+            </div>
+
+            <div class="rating__count">1 752 оценки</div>
+          </div>
+        </div>
+
+        <div class="rating-buttons" role="group" aria-label="Оценить отзыв">
+          <button class="rating-button" type="button" aria-label="Оценка 1">1</button>
+          <button class="rating-button" type="button" aria-label="Оценка 2">2</button>
+          <button class="rating-button" type="button" aria-label="Оценка 3">3</button>
+          <button class="rating-button rating-button--selected-dark" type="button" aria-label="Оценка 4">4</button>
+          <button class="rating-button rating-button--selected" type="button" aria-label="Оценка 5">5</button>
+        </div>
+
+        <div class="rating__hint" id="ratingHint" aria-live="polite">
+          Нажмите, чтобы оценить отзыв
+        </div>
+      </section>
+
+      <section class="accordion" aria-label="Информация об автомобиле">
+        <div class="accordion__item">
+          <button class="accordion__button" type="button" aria-expanded="false">
+            <span>Технические характеристики</span>
+            <i class="accordion__chevron" aria-hidden="true"></i>
+          </button>
+          <div class="accordion__content">
+            Двигатель 2.8 л, дизель, автоматическая коробка передач, полный привод.
+          </div>
+        </div>
+
+        <div class="accordion__item">
+          <button class="accordion__button" type="button" aria-expanded="false">
+            <span>Комплектация</span>
+            <i class="accordion__chevron" aria-hidden="true"></i>
+          </button>
+          <div class="accordion__content">
+            Полная комплектация автомобиля с кожаным салоном, камерой и мультимедиа.
+          </div>
+        </div>
+
+        <div class="accordion__item">
+          <button class="accordion__button" type="button" aria-expanded="false">
+            <span class="car-score">Оценка автомобиля: <strong>9.5</strong> из 10</span>
+            <i class="accordion__chevron" aria-hidden="true"></i>
+          </button>
+          <div class="accordion__content">
+            Общая оценка автомобиля владельцем — 9.5 из 10.
+          </div>
+        </div>
+      </section>
+
+      <article class="review">
+        <p class="review__text">Вдохновленный тем, что мой предыдущий отзыв десятилетней давности о тойота витз (который быстрее птиц), все еще в топе (скромничаю - первый по факту) на этом же сайте с просмотрами под 50 тысяч. И тем, что эра китайцев на мой скромный взгляд все таки пришла, а в связи с этим и ощущается растущий интерес к данным автомобилям по экспоненте. Но ГЛАВНОЕ, что отзывов о данном автомобиле, как о и моем витсе 2011 года в свое время, все таки мало, а СТРАХОВ много, решил оставить несколько заметок об уже трехмесячном владении данным авто. Повторяю ЗАМЕТОК) не советов, не рекомендаций, и уж точно не прошу никого оценить мой выбор (при всей заочной любви и уважении к каждому, и миру в целом). Тем более на такой непопулярной в народе "палке", тем более такого непопулярного в народе цвета "умри с тряпкой" - космический черный!<br><br>Но все же, для любителей посоветовать обозначу кратко свои компетенции. Правых рулей было штук пять. Отличные авто! Правда все что было - бюджетные и класса B, лексусами и прочими люксами не владел, не плавал, не знаю, не развращен обдувами сиденья и электролифтом. Также раздельный климат-контроль для меня зверь изученный только по учебникам. Во всем вышеуказанном был только пассажиром, не скрою не один раз, и также не скрою в обморок не падаю от всей этой роскоши. Более того, надеюсь что и мне когда-то доведется познать все ништяки и профиты современной инженерной мысли. А пока владею, чем владею, и радуюсь этому же. Кроме того, был опыт покупки авто на аукционах, и что такое фрахт, торги и растаможка знаю доподлинно, по своему опыту. К счастью не горькому. Но в этот раз не захотелось. Автомобиль по счету одиннадцатый, мой возраст подходит к сорока. Корейцы были, приоры были, полоседан (шкода рапид, если кто не знает), был предыдущий автомобиль. Очень надежный и верный спутник к слову сказать. Проехал на нем ни много ни мало - соточку. И в жару и в мороз. Почти без вложений, если не считать обслуживания. Не подводил, не делал голову, при отличном пакете опций. Но время не щадит технику, это только души людей оно делает более зрелыми и светлыми...отвлекся) поэтому пришло время прощаться. Попрощались, без слез, по взрослому, в трейд ин.<br><br>Критерии для выбора были простыми. Левый руль. Новый. Компактный кроссовер (двое маленьких детей). Простой, понятный, популярный. Какие еще есть слова на п...престижный, пикантный сюда не подходит. А вот приятный - вполне. Так я и определил для себя этот автомобиль сразу и спустя шесть тысяч пробега мнение не поменял. Еще было важно бюджетный (хотя язык не поворачивается так сказать об автомобиле почти под 2 млн.р). Но уж такое время. Ипотеки, дискотеки, и... все держатся.<br><br>Выбор был достаточно простой и что не свойственно мне, отчасти импульсивный. Под прицелом был/была Chery тигр. четыре (любой, без приставки или про) или тенет, после ребрендинга. И вроде все было понятно, но вот за день до покупки, прогуливаясь с семьей, решили что почему-то это может быть Джулион. Отзывы конечно читал и раньше, но как-то не не заходил он. А тут вроде все сошлось, зашло и откликнулось. Приняли решение, поехали сдавать старый авто и пересаживаться на новый.<br><br>Почему не белый? Потому что был только черный. Это первая причина.Вторая причина, потому-что менеджер настоятельно рекомендовал приехать и посмотреть вживую, за что ему огромное спасибо. Черный цвет я очень полюбил и выбором крайне доволен. Хотя на мойке стал бывать в два раза чаще. Но это на мой вкус того стоит.<br><br>Итог haval joulion, комплектация комфорт. Ничего сверхнеобычного, но все важное для меня на месте. Климат, круиз, датчик дождя, света, подогрев передних сидений, бесключевой доступ, автохолд, всяческого рода помощники, андроид авто, карплей, даже датчики давления в шинах!</p>
+
+        <div class="review__meta">
+          <div>Опубликовано 6 лет назад</div>
+          <div>90 815 просмотров</div>
+        </div>
+
+        <button class="rate-review" type="button">
+          Поставить 5!
+        </button>
+      </article>
+
+      <section class="additions">
+        <h2 class="additions__title">Дополнения</h2>
+
+        <article class="addition-card">
+          <h3 class="addition-card__title">
+            Выблор и покупка
+          </h3>
+
+          <div class="addition-card__meta">1 год назад, 96 000 км</div>
+
+          <p class="addition-card__text">
+            Ну что же, пора разобраться, ка так вышло, как я, житель Дальнего Востока, всю жизнь ездящий на праворуких старых японцах, решил пересесть на китайца.
+            <br>
+            <br>
+            К китайским машинам присматривался довольно давно, начал лет пять назад. Тогда у коллеги по работе появился Chery Tiggo 7, не плохая по тем временам машина, он её покупал новой и по прошествии лет, она показала себя надёжной и не прихотливой.
+            <br/>
+            К тому времени когда к нам начали заезжать китайские машины массово, разные модели, марки, разные классы, от небольших седанов, до премиальных кроссоверов и внедорожников, появилась возможность хоть как-то их сравнить между собой, выделить для себя то, что потенциально нравилось....
+          </p>
+        </article>
+
+        <article class="addition-card">
+          <h3 class="addition-card__title">А вопрос о расходе топлива</h3>
+
+          <div class="addition-card__meta">1 год назад, 96 000 км</div>
+
+          <p class="addition-card__text">
+            Машинка обкаталась и вот что мы имеем с расходом в цикле город-пригород.
+            Трассы из-за карантина не было вообще.
+          </p>
+
+          <div class="photos" aria-label="Фотографии дополнения">
+            <img src="image.png" alt="">
+            <img src="image.png" alt="">
+            <img src="image.png" alt="">
+            <img src="image.png" alt="">
+            <img src="image.png" alt="">
+          </div>
+
+          <a class="read-more" href="#full-review">
+            Читать полностью⌄
+          </a>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <div
+    class="rating-notification"
+    id="ratingNotification"
+    role="alert"
+    aria-live="assertive"
+  >
+    <span>Не удалось сохранить оценку</span>
+    <button class="rating-notification__retry" type="button" id="retryRating">
+      Повторить
+    </button>
+  </div>
+
+  <script>
+    (() => {
+      const ratingButtonsContainer = document.querySelector(".rating-buttons");
+      const ratingButtons = [...document.querySelectorAll(".rating-button")];
+      const notification = document.querySelector("#ratingNotification");
+      const retryButton = document.querySelector("#retryRating");
+      const rateReviewButton = document.querySelector(".rate-review");
+      const ratingHint = document.querySelector("#ratingHint");
+      const accordionButtons = document.querySelectorAll(".accordion__button");
+
+      let selectedRating = null;
+      let notificationTimer = null;
+
+      accordionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const item = button.closest(".accordion__item");
+          const isOpen = item.classList.toggle("is-open");
+
+          button.setAttribute("aria-expanded", String(isOpen));
+        });
+      });
+
+      function setRatingState(value) {
+        selectedRating = value;
+
+        rateReviewButton?.classList.add("rate-review-disabled");
+        ratingButtonsContainer?.classList.add("rating-disabled");
+
+        ratingButtons.forEach((button) => {
+          button.classList.remove(
+            "rating-button--selected",
+            "rating-button--selected-dark"
+          );
+        });
+
+        window.clearTimeout(notificationTimer);
+
+        notificationTimer = window.setTimeout(() => {
+          notification.classList.remove("is-leaving");
+          notification.classList.add("is-visible");
+        }, 650);
+      }
+
+      ratingButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          setRatingState(Number(button.textContent.trim()));
+        });
+      });
+
+      rateReviewButton?.addEventListener("click", () => {
+        setRatingState(5);
+      });
+
+      retryButton.addEventListener("click", () => {
+        if (selectedRating === null) return;
+
+        window.clearTimeout(notificationTimer);
+
+        notification.classList.remove("is-visible", "is-leaving");
+
+        // Restart animation after the browser has applied the hidden state.
+        void notification.offsetWidth;
+
+        notification.classList.add("is-leaving");
+
+        window.setTimeout(() => {
+          notification.classList.remove("is-leaving");
+          ratingButtonsContainer?.classList.remove("rating-disabled");
+
+          ratingButtons.forEach((button) => {
+            button.classList.remove(
+              "rating-button--selected",
+              "rating-button--selected-dark"
+            );
+          });
+
+          const selectedButton = ratingButtons.find(
+            (button) => Number(button.textContent.trim()) === selectedRating
+          );
+
+          selectedButton?.classList.add(
+            selectedRating === 5
+              ? "rating-button--selected"
+              : "rating-button--selected-dark"
+          );
+
+          rateReviewButton?.classList.remove("rate-review-disabled");
+
+          if (ratingHint) {
+            ratingHint.textContent = "Спасибо за оценку";
+          }
+        }, 400);
+      });
+    })();
+  </script>
+</body>
+</html>
