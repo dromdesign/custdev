@@ -257,6 +257,19 @@
       background: #c7c7ca;
     }
 
+    .rating-buttons.rating-disabled .rating-button {
+      color: #fff;
+      background: #c7c7ca;
+    }
+
+    .rating-buttons.rating-disabled .rating-button.rating-button--selected {
+      background: #ed001c;
+    }
+
+    .rating-buttons.rating-disabled .rating-button.rating-button--selected-dark {
+      background: #27272a;
+    }
+
     .rating__hint {
       margin-top: 10px;
       font-size: 12px;
@@ -735,15 +748,17 @@
 
         notification.classList.remove("is-visible", "is-leaving");
 
-        // Restart animation after the browser has applied the hidden state.
         void notification.offsetWidth;
 
         notification.classList.add("is-leaving");
 
         window.setTimeout(() => {
           notification.classList.remove("is-leaving");
-          ratingButtonsContainer?.classList.remove("rating-disabled");
 
+          // Оставляем выбор заблокированным
+          ratingButtonsContainer?.classList.add("rating-disabled");
+
+          // Сначала убираем старую подсветку
           ratingButtons.forEach((button) => {
             button.classList.remove(
               "rating-button--selected",
@@ -751,17 +766,20 @@
             );
           });
 
+          // Находим выбранную оценку
           const selectedButton = ratingButtons.find(
             (button) => Number(button.textContent.trim()) === selectedRating
           );
 
+          // Включаем цвет выбранной оценки
           selectedButton?.classList.add(
             selectedRating === 5
               ? "rating-button--selected"
               : "rating-button--selected-dark"
           );
 
-          rateReviewButton?.classList.remove("rate-review-disabled");
+          // Кнопку «Поставить 5!» тоже блокируем
+          rateReviewButton?.classList.add("rate-review-disabled");
 
           if (ratingHint) {
             ratingHint.textContent = "Спасибо за оценку";
