@@ -28,8 +28,9 @@
     }
 
     .page {
-      width: 100%;
+      width: min(100%, 440px);
       min-height: 100vh;
+      margin: 0 auto;
       overflow: hidden;
       background: #fff;
     }
@@ -38,8 +39,10 @@
     .header {
       position: fixed;
       top: 0;
-      left: 0;
-      right: 0;
+      left: 50%;
+      right: auto;
+      width: min(100%, 440px);
+      transform: translateX(-50%);
       z-index: 1000;
 
       display: flex;
@@ -110,7 +113,7 @@
 
     /* Content */
     .content {
-      padding: 30px clamp(17px, 4vw, 40px) 0;
+      padding: 30px clamp(17px, 2vw, 40px) 0;
       background: #fff;
     }
 
@@ -152,7 +155,6 @@
 
     /* Rating */
     .rating {
-      width: min(100%, 385px);
       margin: 36px auto 0;
       padding: 18px 17px 16px;
       border-radius: 17px;
@@ -363,14 +365,14 @@
 
     /* Additions */
     .additions {
-      margin: 17px calc(-1 * clamp(17px, 4vw, 40px)) 0;
+      margin: 30px calc(-1 * clamp(17px, 2vw, 40px)) 0;
       padding: 33px 0 20px;
       background: #f3f3f7;
     }
 
     .additions__title {
       margin: 0;
-      padding: 0 clamp(17px, 4vw, 40px) 18px;
+      padding: 0 clamp(17px, 2vw, 40px) 18px;
       font-size: 24px;
       font-weight: 700;
     }
@@ -436,7 +438,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      width: min(740px, calc(100vw - 32px));
+      width: min(408px, calc(100vw - 32px));
       padding: 16px 24px;
       border-radius: 40px;
       color: #111;
@@ -487,14 +489,6 @@
       to {
         transform: translate(-50%, -130%);
         opacity: 0;
-      }
-    }
-
-    @media (min-width: 700px) {
-      body { padding: 20px; }
-
-      .page {
-        box-shadow: 0 0 30px rgba(0, 0, 0, .07);
       }
     }
 
